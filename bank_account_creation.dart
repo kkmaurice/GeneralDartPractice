@@ -30,6 +30,8 @@ int accountBalance = 10000;
 
     //call get user information here
     printResults();
+    
+    updateUserAccountBalance();
 
     exit(0);
     }
@@ -59,11 +61,49 @@ int accountBalance = 10000;
   
 
   void printResults(){
+    print('\n');
+    print('**********Results*************');
     print('Your name is: $name');
     print('Your email address is: $emailAddress');
     print('Your gender is: $gender');
     print('You come from: $country');
     print('Your favorite car is: $favoriteCar');
     print('Your age is: $age');
+    print('*********Results**************');
+    print('');
+  }
+
+  void updateUserAccountBalance(){
+    var response = getUserResponse('Do you want to use your account(Yes/No)?');
+    if(response.isNotEmpty){
+      if(response.toLowerCase() == 'yes'){
+        var answer1 = getUserResponse('Do you want to deposit or withdraw from your account(Deposit/Withdraw)?');
+        if(answer1.isNotEmpty && answer1.toLowerCase() == 'deposit'){
+          deposit();
+        }else if(answer1.isNotEmpty && answer1.toLowerCase() == 'withdraw'){
+          withdraw();
+        }else{
+          print('$answer1 is not valid');
+        }
+      }else{
+        return;
+      }
+    }
+  }
+
+  void deposit(){
+    var depositAmount = getUserResponse('How much do you want to deposit?');
+    var userDepositAmount = int.parse(depositAmount);
+    accountBalance+=userDepositAmount;
+    print('Your new balance is: $accountBalance');
+  }
+
+  void withdraw(){
+    var withdrawAmount = getUserResponse('How much do you want to withdraw?');
+    var userWithdrawAmount = int.parse(withdrawAmount);
+    if(accountBalance > userWithdrawAmount){
+      accountBalance-=userWithdrawAmount;
+      print('Your new balance is: $accountBalance');
+    }
   }
   
